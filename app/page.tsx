@@ -1,4 +1,6 @@
-import Image, { getImageProps } from "next/image";
+import Image from "next/image";
+import RefineFrame from "../components/RefineFrame";
+import ImageFlipper from "../components/ImageFlipper";
 
 const navigation = [
   { label: "ABOUT", href: "#about" },
@@ -6,14 +8,6 @@ const navigation = [
   { label: "NOTES", href: "#notes" },
   { label: "CONTACT", href: "#contact" },
 ];
-
-const desktopArtwork = getImageProps({
-  src: "/2703.png",
-  alt: "",
-  width: 1200,
-  height: 720,
-  sizes: "100vw",
-}).props;
 
 export default function Home() {
   return (
@@ -27,7 +21,7 @@ export default function Home() {
               </a>
             ))}
           </div>
-          <a className="wordmark" href="#top" aria-label="LES home">
+          <a className="wordmark" href=" " aria-label="LES home">
             L̷E̷S
           </a>
           <div className="nav-links nav-links-right">
@@ -69,8 +63,8 @@ export default function Home() {
             <a className="button button-dark" href="#projects">
               VIEW PROJECTS <span aria-hidden="true">↘</span>
             </a>
-            <a className="text-link" href="#contact">
-              Talk to a niggah <span aria-hidden="true">↗</span>
+            <a>
+              *<span aria-hidden="true"></span>
             </a>
           </div>
         </div>
@@ -82,62 +76,32 @@ export default function Home() {
 
       <section className="closing" id="about">
         <div className="closing-copy" id="notes">
-          <p className="eyebrow">THE WORK IS NEVER JUST THE WORK</p>
-          <h2>MAKE ROOM FOR<br />WHAT&apos;S NEXT.</h2>
+          <p className="eyebrow">THE TIME YOU SPENT TO CREATE IS TIME WELL LIVED</p>
+          <h2 className="" id="projects">MAKE YOUR DREAMS<br />A REALITY</h2>
           <a className="text-link" href="mailto:hello@les.studio" id="contact">
             GET IN TOUCH <span aria-hidden="true">↗</span>
           </a>
         </div>
 
-        <figure className="artwork" id="projects">
-          <div className="artwork-frame">
-            <svg
-              className="artwork-streak"
-              viewBox="0 0 1200 260"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <defs>
-                <mask
-                  id="theblur-streak-mask"
-                  x="0"
-                  y="0"
-                  width="1200"
-                  height="260"
-                  maskUnits="userSpaceOnUse"
-                  mask-type="alpha"
-                >
-                  <image
-                    href="/theblur.svg"
-                    width="1200"
-                    height="260"
-                    preserveAspectRatio="none"
-                  />
-                </mask>
-              </defs>
-              <image
-                href={desktopArtwork.src}
-                x="0"
-                y="0"
-                width="1200"
-                height="260"
-                preserveAspectRatio="xMaxYMid slice"
-                mask="url(#theblur-streak-mask)"
-              />
-            </svg>
-            <Image
-              className="artwork-image"
-              src="/2703.png"
-              alt="Painterly illustration of a room filled with server racks"
-              fill
-              sizes="(max-width: 760px) 88vw, 50vw"
-            />
-          </div>
-          <figcaption className="artwork-caption">
-            <span>01 / THE INFRASTRUCTURE</span>
-            <span>BUILT FOR WHAT COMES NEXT</span>
-          </figcaption>
-        </figure>
+        <RefineFrame
+          className="closing-refinement"
+          status="refining"
+          width={560}
+          aspectRatio="666 / 375"
+          radius={0}
+          background="transparent"
+          stageDuration={0}
+          onRetry={10}
+        >
+          <ImageFlipper
+            images={["/2703.png", "/610.jpg", "/611.png", "/612.png", "1024.jpg"]}
+            interval={4000}
+            alt="Painted illustration of infrastructure"
+            width={666}
+            height={375}
+          />
+        </RefineFrame>
+
       </section>
 
       <footer className="site-footer">
@@ -150,7 +114,7 @@ export default function Home() {
           <a href="#projects">PROJECTS</a>
           <a href="#contact">CONTACT</a>
         </nav>
-        <a className="footer-top" href="#top">
+        <a className="footer-top" href="">
           BACK TO TOP <span aria-hidden="true">↑</span>
         </a>
       </footer>
