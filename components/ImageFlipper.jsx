@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 export default function ImageFlipper({
-  images = [],
+  images = /** @type {string[]} */ ([]),
   interval = 4000,
   alt = '',
   width,

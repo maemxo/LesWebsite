@@ -1,11 +1,10 @@
 import Image from "next/image";
-import RefineFrame from "../components/RefineFrame";
 import ImageFlipper from "../components/ImageFlipper";
 
 const navigation = [
-  { label: "ABOUT", href: "#about" },
-  { label: "PROJECTS", href: "#projects" },
-  { label: "CONTACT", href: "#contact" },
+  { label: "ABOUT",    href: "/about" },
+  { label: "PROJECTS", href: "/projects" },
+  { label: "CONTACT",  href: "/contact" },
 ];
 
 export default function Home() {
@@ -78,25 +77,13 @@ export default function Home() {
             GET IN TOUCH <span aria-hidden="true">↗</span>
           </a>
         </div>
-
-        <RefineFrame
-          className="closing-refinement"
-          status="refining"
-          width={560}
-          aspectRatio="666 / 375"
-          radius={0}
-          background="transparent"
-          stageDuration={0}
-          onRetry={10}
-        >
           <ImageFlipper
-            images={["/2703.png", "/610.jpg", "/611.png", "/612.png", "1024.jpg"]}
+            images={["/2703.png", "/610.jpg", "/611.png", "/612.png", "/1024.jpg"]}
             interval={4000}
             alt="Painted illustration of infrastructure"
             width={666}
             height={375}
           />
-        </RefineFrame>
 
       </section>
 
