@@ -5,7 +5,6 @@ import ImageFlipper from "../components/ImageFlipper";
 const navigation = [
   { label: "ABOUT", href: "#about" },
   { label: "PROJECTS", href: "#projects" },
-  { label: "NOTES", href: "#notes" },
   { label: "CONTACT", href: "#contact" },
 ];
 
@@ -31,8 +30,8 @@ export default function Home() {
               </a>
             ))}
           </div>
-          <a className="nav-cta" href="#projects">
-            EXPLORE <span aria-hidden="true">↘</span>
+          <a className="nav-cta" href="https://github.com/maemxo">
+            GITHUB <span aria-hidden="true"></span>
           </a>
         </nav>
       </header>
@@ -62,9 +61,6 @@ export default function Home() {
           <div className="hero-actions">
             <a className="button button-dark" href="#projects">
               VIEW PROJECTS <span aria-hidden="true">↘</span>
-            </a>
-            <a>
-              *<span aria-hidden="true"></span>
             </a>
           </div>
         </div>
@@ -105,7 +101,7 @@ export default function Home() {
       </section>
 
       <footer className="site-footer">
-        <a className="footer-brand" href="#top" aria-label="LES home">
+        <a className="footer-brand" href="" aria-label="LES home">
           L̷E̷S
         </a>
         <span className="footer-note">INDEPENDENT BY DESIGN</span>
