@@ -2,8 +2,20 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+type Props = {
+  images?: string[];
+  interval?: number;
+  alt?: string;
+  width?: number;
+  height?: number;
+  className?: string;
+  fade?: number;
+  startOnView?: boolean;
+  viewThreshold?: number;
+};
+
 export default function ImageFlipper({
-  images = /** @type {string[]} */ ([]),
+  images = [],
   interval = 4000,
   alt = '',
   width,
@@ -11,15 +23,13 @@ export default function ImageFlipper({
   className = '',
   fade = 500,
   startOnView = true,
-  viewThreshold = 0.15
-}) {
+  viewThreshold = 0.15,
+}: Props) {
   const [index, setIndex] = useState(0);
   const [inView, setInView] = useState(!startOnView);
-  const wrapRef = useRef(null);
-  // Track loaded images so we don't swap to one the browser hasn't fetched yet.
-  const loadedRef = useRef(new Set());
+  const wrapRef = useRef<HTMLSpanElement>(null);
+  const loadedRef = useRef(new Set<string>());
 
-  // Preload every image once on mount so swaps are instant.
   useEffect(() => {
     images.forEach(src => {
       const img = new window.Image();
@@ -28,7 +38,6 @@ export default function ImageFlipper({
     });
   }, [images]);
 
-  // Watch the wrapper; only start flipping once it's visible.
   useEffect(() => {
     if (!startOnView) return undefined;
     const el = wrapRef.current;
@@ -53,7 +62,6 @@ export default function ImageFlipper({
     return () => io.disconnect();
   }, [startOnView, viewThreshold]);
 
-  // The actual flipper.
   useEffect(() => {
     if (!inView || images.length < 2) return undefined;
     const id = setInterval(() => {
@@ -62,29 +70,30 @@ export default function ImageFlipper({
     return () => clearInterval(id);
   }, [inView, images.length, interval]);
 
+  if (!images.length) return null;
+
   return (
     <span
       ref={wrapRef}
       className={className}
       style={{
         display: 'block',
-        width: '100%',
-        height: '100%',
-        position: 'relative'
+        position: 'relative',
+        width: width ? `${width}px` : '100%',
+        height: height ? `${height}px` : 'auto',
+        overflow: 'hidden',
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={images[index]}
         alt={alt}
-        width={width}
-        height={height}
         style={{
           display: 'block',
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          transition: `opacity ${fade}ms ease`
+          transition: `opacity ${fade}ms ease`,
         }}
       />
     </span>
