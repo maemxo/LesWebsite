@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import DitherVeil from "@/components/DitherVeil";
-import RomanPillar from "@/components/RomanPillars";
 import ProjectModal, { Project } from "@/components/ProjectModal";
 
 const navigation = [
@@ -31,38 +29,21 @@ const PROJECTS: Record<string, Project> = {
   },
 };
 
-const OZYMANDIAS = [
-  { text: "I met a traveller from an antique land",     top: "15%", left: "4%",  rotate: -3, size: "sm" },
-  { text: "Two vast and trunkless legs of stone",       top: "6%",  right: "6%", rotate: 2,  size: "sm" },
-  { text: "Near them, on the sand,",                    top: "36%", right: "5%", rotate: -2, size: "xs" },
-  { text: "half sunk, a shattered visage lies",         top: "60%", left: "5%",  rotate: 3,  size: "sm" },
-  { text: "whose frown, and wrinkled lip",              top: "76%", right: "8%", rotate: -4, size: "xs" },
-  { text: "and sneer of cold command",                  top: "28%", left: "6%",  rotate: 1,  size: "xs" },
-  { text: "My name is Ozymandias, King of Kings;",      top: "83%", left: "7%",  rotate: -2, size: "md" },
-  { text: "Look on my Works, ye Mighty, and despair!",  top: "10%", left: "42%", rotate: 2,  size: "md" },
-  { text: "Nothing beside remains.",                    top: "68%", right: "4%", rotate: -1, size: "sm" },
-  { text: "Round the decay of that colossal Wreck,",    top: "86%", right: "10%", rotate: 3, size: "xs" },
-  { text: "boundless and bare",                         top: "48%", left: "3%",  rotate: -3, size: "xs" },
-  { text: "The lone and level sands stretch far away.", top: "92%", left: "40%", rotate: -1, size: "sm" },
+const HOTSPOTS = [
+  { id: "JUNO",     top: "16%", left: "6%",  width: "5%",  height: "20%", labelBottom: "-40px" },
+  { id: "WAYSTONE", top: "52%", left: "52%", width: "5%",  height: "26%", labelBottom: "-70px" },
 ];
-
-const TEXT_SIZES: Record<string, string> = {
-  xs: "11px",
-  sm: "14px",
-  md: "18px",
-};
 
 export default function Projects() {
   const [open, setOpen] = useState<Project | null>(null);
 
+  const handleSelect = (id: string) => {
+    const p = PROJECTS[id];
+    if (p) setOpen(p);
+  };
+
   return (
-    <main
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        backgroundColor: "#fef8f1",
-      }}
-    >
+    <main style={{ position: "relative", minHeight: "100vh" }}>
       <div
         aria-hidden="true"
         style={{
@@ -72,8 +53,6 @@ export default function Projects() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          opacity: 0.5,
-          pointerEvents: "none",
           zIndex: 0,
         }}
       />
@@ -112,68 +91,132 @@ export default function Projects() {
           </nav>
         </header>
 
-        <section style={{ padding: "2rem" }}>
+        <section
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "8rem 2rem 6rem",
+            minHeight: "calc(100vh - 200px)",
+          }}
+        >
           <div
             style={{
-              position: "relative",
               width: "100%",
-              maxWidth: "2600px",
-              height: "1850px",
-              margin: "2rem auto",
+              maxWidth: "900px",
+              position: "relative",
             }}
           >
-            <DitherVeil
-              src="/body.png"
-              fit="contain"
-              pattern="floyd"
-              pixelSize={1.5}
-              levels={2}
-              palette="duotone"
-              inkColor="#fef8f1"
-              paperColor="#403b32"
-              revealRadius={90}
-            />
+            <p
+              style={{
+                fontSize: 12,
+                letterSpacing: "0.3em",
+                opacity: 0.75,
+                margin: 0,
+                fontWeight: 600,
+                color: "#2a1f12",
+                textAlign: "center",
+                textShadow: "0 1px 12px rgba(254,248,241,0.7)",
+              }}
+            >
+              THE COLLECTION · VOL. I
+            </p>
 
-            {OZYMANDIAS.map((line, i) => (
-              <p
-                key={i}
+            <h1
+              style={{
+                fontSize: "clamp(32px, 4vw, 52px)",
+                lineHeight: 1,
+                letterSpacing: "-0.02em",
+                margin: "1rem 0 2.5rem",
+                fontWeight: 500,
+                color: "#2a1f12",
+                textAlign: "center",
+                textShadow: "0 2px 20px rgba(254,248,241,0.85)",
+              }}
+            >
+              Selected works.
+            </h1>
+
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                aspectRatio: "700 / 315",
+              }}
+            >
+              <img
+                src="/books.png"
+                alt=""
                 aria-hidden="true"
                 style={{
                   position: "absolute",
-                  top: line.top,
-                  left: (line as any).left,
-                  right: (line as any).right,
-                  transform: `rotate(${line.rotate}deg)`,
-                  fontSize: TEXT_SIZES[line.size],
-                  letterSpacing: "0.08em",
-                  color: "#403b32",
-                  opacity: 0.55,
-                  fontStyle: "italic",
-                  margin: 0,
-                  pointerEvents: "none",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
                   userSelect: "none",
-                  maxWidth: "220px",
-                  lineHeight: 1.4,
-                  zIndex: 2,
+                  pointerEvents: "none",
+                  mixBlendMode: "multiply",
                 }}
-              >
-                {line.text}
-              </p>
-            ))}
+              />
 
-            <RomanPillar
-              label="JUNO"
-              height={260}
-              style={{ top: "10%", left: "8%", zIndex: 3 }}
-              onClick={() => setOpen(PROJECTS.JUNO)}
-            />
+              {HOTSPOTS.map((spot) => {
+                const project = PROJECTS[spot.id];
+                if (!project) return null;
+                return (
+                  <button
+                    key={spot.id}
+                    onClick={() => handleSelect(spot.id)}
+                    aria-label={`Open ${project.title}`}
+                    style={{
+                      position: "absolute",
+                      top: spot.top,
+                      left: spot.left,
+                      width: spot.width,
+                      height: spot.height,
+                      padding: 0,
+                      border: "none",
+                      background: "transparent",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <span
+                      style={{
+                        position: "absolute",
+                        bottom: spot.labelBottom,
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        fontSize: 10,
+                        letterSpacing: "0.28em",
+                        color: "#2a1f12",
+                        fontWeight: 600,
+                        opacity: 0.7,
+                        pointerEvents: "none",
+                        whiteSpace: "nowrap",
+                        userSelect: "none",
+                        textShadow: "0 1px 8px rgba(254,248,241,0.8)",
+                      }}
+                    >
+                      {project.title}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
 
-            <RomanPillar
-              label="WAYSTONE"
-              height={300}
-              style={{ top: "45%", right: "10%", zIndex: 3 }}
-              onClick={() => setOpen(PROJECTS.WAYSTONE)}
-            />
+            <p
+              style={{
+                fontSize: 11,
+                letterSpacing: "0.3em",
+                opacity: 0.65,
+                margin: "2.5rem 0 0",
+                color: "#2a1f12",
+                textAlign: "center",
+                textShadow: "0 1px 10px rgba(254,248,241,0.7)",
+              }}
+            >
+              2 CHAMBERS · 2025 — 2026
+            </p>
           </div>
         </section>
 
@@ -181,7 +224,10 @@ export default function Projects() {
           <Link className="footer-brand" href="/" aria-label="LES home">
             L̷E̷S
           </Link>
-          <span className="footer-note">INDEPENDENT BY DESIGN</span>
+
+          <span className="footer-note" style={{ color: "#f0e2c2" }}>
+            INDEPENDENT BY DESIGN
+          </span>
           <nav className="footer-links" aria-label="Footer navigation">
             <Link href="/about">ABOUT</Link>
             <Link href="/projects">PROJECTS</Link>
@@ -193,7 +239,7 @@ export default function Projects() {
         </footer>
       </div>
 
-      <ProjectModal project={open} onClose={() => setOpen(null)} />
+      <ProjectModal project={open} onClose={setOpen.bind(null, null)} />
     </main>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 export type Project = {
@@ -21,13 +21,10 @@ const FADE_MS = 260;
 export default function ProjectModal({ project, onClose }: Props) {
   const [rendered, setRendered] = useState<Project | null>(project);
   const [phase, setPhase] = useState<'in' | 'out'>('in');
-  const overlayRef = useRef<HTMLDivElement>(null);
 
-  // Enter / exit handling
   useEffect(() => {
     if (project) {
       setRendered(project);
-      // Reset to 'out' first so the enter animation actually plays
       setPhase('out');
       const raf = requestAnimationFrame(() => setPhase('in'));
       return () => cancelAnimationFrame(raf);
@@ -39,38 +36,16 @@ export default function ProjectModal({ project, onClose }: Props) {
     return undefined;
   }, [project, rendered]);
 
-  // Lock page scroll while modal is open (block wheel/touch on overlay)
   useEffect(() => {
     if (!rendered) return;
-
-    const el = overlayRef.current;
-    if (!el) return;
-
-    // Prevent wheel/touch from reaching the page behind
-    const blockWheel = (e: WheelEvent) => {
-      // Allow scrolling inside the modal panel
-      const panel = el.firstElementChild as HTMLElement | null;
-      if (panel && panel.contains(e.target as Node)) return;
-      e.preventDefault();
-    };
-    const blockTouch = (e: TouchEvent) => {
-      const panel = el.firstElementChild as HTMLElement | null;
-      if (panel && panel.contains(e.target as Node)) return;
-      e.preventDefault();
-    };
-
-    window.addEventListener('wheel', blockWheel, { passive: false });
-    window.addEventListener('touchmove', blockTouch, { passive: false });
-
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
-    window.addEventListener('keydown', onKey);
-
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
     return () => {
-      window.removeEventListener('wheel', blockWheel);
-      window.removeEventListener('touchmove', blockTouch);
-      window.removeEventListener('keydown', onKey);
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
     };
   }, [rendered, onClose]);
 
@@ -80,12 +55,11 @@ export default function ProjectModal({ project, onClose }: Props) {
 
   return (
     <div
-      ref={overlayRef}
       onClick={onClose}
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(18, 15, 23, 0.78)',
+        background: 'rgba(18, 15, 23, 0.8)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -100,75 +74,141 @@ export default function ProjectModal({ project, onClose }: Props) {
         data-lenis-prevent
         style={{
           position: 'relative',
-          maxWidth: 720,
+          maxWidth: 680,
           width: '100%',
           maxHeight: '90vh',
           overflowY: 'auto',
           overscrollBehavior: 'contain',
-          background: '#fef8f1',
+          // Paper look
+          background:
+            'linear-gradient(180deg, #fef8f1 0%, #f7efe2 100%)',
           color: '#403b32',
-          padding: '2.5rem 2.75rem 2.75rem',
-          boxShadow: '0 30px 100px rgba(0,0,0,0.55)',
+          padding: '3rem 2.75rem 3rem',
+          boxShadow:
+            '0 40px 100px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(64,59,50,0.08)',
           opacity: shown ? 1 : 0,
-          transform: shown ? 'translateY(0) scale(1)' : 'translateY(16px) scale(0.98)',
-          transition: `opacity ${FADE_MS}ms ease, transform ${FADE_MS + 40}ms cubic-bezier(0.16, 1, 0.3, 1)`,
+          transform: shown
+            ? 'translateY(0) scale(1) rotate(0deg)'
+            : 'translateY(20px) scale(0.97) rotate(-0.4deg)',
+          transition: `opacity ${FADE_MS}ms ease, transform ${FADE_MS + 60}ms cubic-bezier(0.16, 1, 0.3, 1)`,
         }}
       >
+        {/* Close */}
         <button
           onClick={onClose}
           aria-label="Close"
           style={{
             position: 'absolute',
-            top: 14,
-            right: 14,
-            width: 36,
-            height: 36,
+            top: 16,
+            right: 16,
+            width: 32,
+            height: 32,
             background: 'transparent',
             border: 'none',
             fontSize: 18,
             cursor: 'pointer',
             color: '#403b32',
-            opacity: 0.6,
+            opacity: 0.5,
           }}
         >
           ✕
         </button>
 
-        <p style={{ fontSize: 11, letterSpacing: '0.22em', opacity: 0.55, margin: 0, fontWeight: 600 }}>
-          PROJECT · {rendered.year}
+        {/* Eyebrow */}
+        <p
+          style={{
+            fontSize: 10,
+            letterSpacing: '0.32em',
+            opacity: 0.5,
+            margin: 0,
+            fontWeight: 600,
+          }}
+        >
+          CHAPTER · {rendered.year}
         </p>
 
-        <h2 style={{ margin: '0.5rem 0 0.35rem', fontSize: 44, fontWeight: 500, lineHeight: 1 }}>
+        {/* Big serif title */}
+        <h2
+          style={{
+            margin: '0.5rem 0 0.5rem',
+            fontSize: 48,
+            fontWeight: 400,
+            lineHeight: 1,
+            fontFamily: 'Georgia, "Times New Roman", serif',
+            letterSpacing: '-0.01em',
+          }}
+        >
           {rendered.title}
         </h2>
 
-        <p style={{ fontStyle: 'italic', margin: '0 0 1.75rem', opacity: 0.7, fontSize: 16 }}>
+        <p
+          style={{
+            fontStyle: 'italic',
+            margin: '0 0 2rem',
+            opacity: 0.6,
+            fontSize: 15,
+            fontFamily: 'Georgia, "Times New Roman", serif',
+          }}
+        >
           {rendered.tagline}
         </p>
 
+        {/* Divider */}
+        <div
+          style={{
+            height: 1,
+            width: 60,
+            background: '#403b32',
+            opacity: 0.3,
+            margin: '0 0 2rem',
+          }}
+        />
+
+        {/* Image */}
         <div
           style={{
             position: 'relative',
             width: '100%',
             aspectRatio: '16 / 10',
             overflow: 'hidden',
-            marginBottom: '1.75rem',
+            marginBottom: '2rem',
             background: '#e8e0d2',
+            boxShadow: 'inset 0 0 0 1px rgba(64,59,50,0.15)',
           }}
         >
           <Image
             src={rendered.image}
             alt={rendered.title}
             fill
-            sizes="(max-width: 720px) 100vw, 720px"
+            sizes="(max-width: 680px) 100vw, 680px"
             style={{ objectFit: 'cover' }}
           />
         </div>
 
-        <div style={{ height: 1, background: '#403b32', opacity: 0.15, margin: '0 0 1.5rem' }} />
-
-        <p style={{ lineHeight: 1.7, margin: 0, fontSize: 15, opacity: 0.85 }}>
+        {/* Body */}
+        <p
+          style={{
+            lineHeight: 1.75,
+            margin: 0,
+            fontSize: 15,
+            fontFamily: 'Georgia, "Times New Roman", serif',
+          }}
+        >
           {rendered.description}
+        </p>
+
+        {/* Footer mark */}
+        <p
+          style={{
+            margin: '2.5rem 0 0',
+            fontSize: 10,
+            letterSpacing: '0.3em',
+            opacity: 0.35,
+            textAlign: 'center',
+            fontWeight: 600,
+          }}
+        >
+          LES · THE COLLECTION
         </p>
       </div>
     </div>

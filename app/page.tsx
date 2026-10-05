@@ -88,8 +88,8 @@ export default function Home() {
         </div>
 
         <ImageFlipper
-          images={["/2703.png", "/610.jpg", "/611.png", "/612.png", "/1024.jpg"]}
-          interval={4000}
+          images={["/2703.png", "/610.jpg", "/611.png", "/612.png", "/1024.jpg", "/105.jpg", "004.jpg"]}
+          interval={1000}
           alt="Painted illustration of infrastructure"
           width={566}
           height={275}
