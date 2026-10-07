@@ -114,7 +114,7 @@ export default function Projects() {
                 opacity: 0.75,
                 margin: 0,
                 fontWeight: 600,
-                color: "#2a1f12",
+                color: "#f0e2c2",
                 textAlign: "center",
                 textShadow: "0 1px 12px rgba(254,248,241,0.7)",
               }}
@@ -145,7 +145,7 @@ export default function Projects() {
               }}
             >
               <img
-                src="/books.png"
+                src="/699.png"
                 alt=""
                 aria-hidden="true"
                 style={{
@@ -188,13 +188,13 @@ export default function Projects() {
                         transform: "translateX(-50%)",
                         fontSize: 10,
                         letterSpacing: "0.28em",
-                        color: "#2a1f12",
+                        color: "#f0e2c2",
                         fontWeight: 600,
-                        opacity: 0.7,
+                        opacity: 1,
                         pointerEvents: "none",
                         whiteSpace: "nowrap",
                         userSelect: "none",
-                        textShadow: "0 1px 8px rgba(254,248,241,0.8)",
+                        textShadow: "0 1px 8px rgba(13, 13, 13, 0.8)",
                       }}
                     >
                       {project.title}
@@ -208,7 +208,7 @@ export default function Projects() {
               style={{
                 fontSize: 11,
                 letterSpacing: "0.3em",
-                opacity: 0.65,
+                opacity: 1,
                 margin: "2.5rem 0 0",
                 color: "#2a1f12",
                 textAlign: "center",
