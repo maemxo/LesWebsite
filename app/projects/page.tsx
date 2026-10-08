@@ -15,8 +15,8 @@ const PROJECTS: Record<string, Project> = {
     title: "JUNO",
     tagline: "A quiet system for loud ideas.",
     description:
-      "JUNO is a long-form exploration of how small, deliberate details shape how a space feels. Built as a brand identity and digital home for an independent studio.",
-    image: "/610.jpg",
+      "JUNO is our agentic logging system for all of our projects and for the main website hosted on a scheduled cron cluster. The way we use Juno is to always take the extra time to perfectly set up every job and schedule. Every process is logged and processed at the end of the month. That data is then taken through the monthly job to find out what we can improve about our projects.",
+    image: "/feedback.png",
     year: "2025",
   },
   WAYSTONE: {
